@@ -1,8 +1,8 @@
 package org.shop.repository.map;
 
 import java.util.List;
+import java.util.function.Predicate;
 
-import org.apache.commons.collections.Predicate;
 import org.shop.data.Proposal;
 import org.shop.repository.ProposalRepository;
 
@@ -48,7 +48,7 @@ public class ProposalMapRepository extends AbstractMapRepository<Proposal> imple
         return select(new ProposalBySellerPredicate(sellerId));
     }
     
-    private class ProposalByProductPredicate implements Predicate {
+    private static class ProposalByProductPredicate implements Predicate<Proposal> {
         
         private Long productId;
         
@@ -58,10 +58,8 @@ public class ProposalMapRepository extends AbstractMapRepository<Proposal> imple
         }
 
         @Override
-        public boolean evaluate(Object input) {
-            if (input instanceof Proposal) {
-                Proposal proposal = (Proposal)input;
-                
+        public boolean test(Proposal proposal) {
+            if (proposal != null) {
                 return productId.equals(proposal.getProduct().getId());
             }
             
@@ -69,7 +67,7 @@ public class ProposalMapRepository extends AbstractMapRepository<Proposal> imple
         }
     }
     
-    private class ProposalBySellerPredicate implements Predicate {
+    private static class ProposalBySellerPredicate implements Predicate<Proposal> {
         private Long sellerId;
 
         private ProposalBySellerPredicate(Long sellerId) {
@@ -78,10 +76,8 @@ public class ProposalMapRepository extends AbstractMapRepository<Proposal> imple
         }
 
         @Override
-        public boolean evaluate(Object input) {
-            if (input instanceof Proposal) {
-                Proposal proposal = (Proposal)input;
-                
+        public boolean test(Proposal proposal) {
+            if (proposal != null) {
                 return sellerId.equals(proposal.getSeller().getId());
             }
             

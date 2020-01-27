@@ -3,9 +3,9 @@ package org.shop.repository.map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
 import org.shop.data.Entity;
 
 /**
@@ -104,7 +104,7 @@ public class AbstractMapRepository<T extends Entity> {
      * @see Predicate
      */
     @SuppressWarnings("unchecked")
-    protected List<T> select(Predicate predicate) {
-        return (List<T>)CollectionUtils.select(register.values(), predicate);
+    protected List<T> select(Predicate<T> predicate) {
+        return register.values().stream().filter(predicate).collect(Collectors.toList());
     }
 }

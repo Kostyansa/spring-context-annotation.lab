@@ -2,8 +2,8 @@ package org.shop.repository.map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
-import org.apache.commons.collections.Predicate;
 import org.shop.data.Product;
 import org.shop.repository.ProductRepository;
 
@@ -22,7 +22,7 @@ public class ProductMapRepository extends AbstractMapRepository<Product> impleme
      */
     @Override
     public List<Product> getProducts() {
-        return new ArrayList<Product>(register.values());
+        return new ArrayList<>(register.values());
     }
     
     /* (non-Javadoc)
@@ -57,7 +57,7 @@ public class ProductMapRepository extends AbstractMapRepository<Product> impleme
         delete(productId);
     }
     
-    private class ProductByNamePredicate implements Predicate {
+    private static class ProductByNamePredicate implements Predicate<Product> {
         private String name;
 
         private ProductByNamePredicate(String name) {
@@ -66,10 +66,9 @@ public class ProductMapRepository extends AbstractMapRepository<Product> impleme
         }
 
         @Override
-        public boolean evaluate(Object input) {
-            if (input instanceof Product) {
-                Product product = (Product)input;
-                
+        public boolean test(Product product) {
+
+            if (product != null) {
                 return name.equalsIgnoreCase(product.getName());
             }
             

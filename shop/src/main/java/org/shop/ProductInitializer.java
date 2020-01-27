@@ -1,5 +1,6 @@
 package org.shop;
 
+import org.shop.annotation.InjectRandomInt;
 import org.shop.api.ProductService;
 
 import org.shop.common.Products;
