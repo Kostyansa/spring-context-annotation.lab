@@ -1,8 +1,8 @@
 package org.shop.repository.map;
 
 import java.util.List;
+import java.util.function.Predicate;
 
-import org.apache.commons.collections.Predicate;
 import org.shop.data.Item;
 import org.shop.repository.ItemRepository;
 
@@ -32,7 +32,7 @@ public class ItemMapRepository extends AbstractMapRepository<Item> implements It
         return select(new ItemByOrderPredicate(orderId));
     }
     
-    private class ItemByOrderPredicate implements Predicate {
+    private static class ItemByOrderPredicate implements Predicate<Item> {
         
         private Long orderId;
         
@@ -42,13 +42,10 @@ public class ItemMapRepository extends AbstractMapRepository<Item> implements It
         }
 
         @Override
-        public boolean evaluate(Object input) {
-            if (input instanceof Item) {
-                Item item = (Item)input;
-                
-                return orderId.equals(item.getOrder().getId());
+        public boolean test(Item input) {
+            if (input != null) {
+                return orderId.equals(input.getOrder().getId());
             }
-            
             return false;
         }
     }

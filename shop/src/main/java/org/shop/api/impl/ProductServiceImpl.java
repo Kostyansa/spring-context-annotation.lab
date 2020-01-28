@@ -5,6 +5,7 @@ import java.util.List;
 import org.shop.api.ProductService;
 import org.shop.data.Product;
 import org.shop.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProductServiceImpl implements ProductService {
 

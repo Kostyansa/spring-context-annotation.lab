@@ -1,8 +1,8 @@
 package org.shop.repository.map;
 
 import java.util.List;
+import java.util.function.Predicate;
 
-import org.apache.commons.collections.Predicate;
 import org.shop.data.Order;
 import org.shop.repository.OrderRepository;
 
@@ -52,7 +52,7 @@ public class OrderMapRepository extends AbstractMapRepository<Order> implements 
     /**
      * The Class OrderByUserPredicate.
      */
-    private class OrderByUserPredicate implements Predicate {
+    private class OrderByUserPredicate implements Predicate<Order> {
         
         /** The user id. */
         private Long userId;
@@ -67,17 +67,12 @@ public class OrderMapRepository extends AbstractMapRepository<Order> implements 
             this.userId = userId;
         }
 
-        /* (non-Javadoc)
-         * @see org.apache.commons.collections.Predicate#evaluate(java.lang.Object)
-         */
         @Override
-        public boolean evaluate(Object input) {
-            if (input instanceof Order) {
-                Order order = (Order)input;
-                
+        public boolean test(Order order) {
+            if (order != null) {
                 return userId.equals(order.getUser().getId());
             }
-            
+
             return false;
         }
     }
